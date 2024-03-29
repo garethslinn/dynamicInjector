@@ -14,26 +14,31 @@ function App() {
     const generatedCodeRef = useRef(null);
 
     const generateFunction = async () => {
-        const minifiedHtml1 = htmlContent1.replace(/\s{2,}/g, ' ').replace(/\n/g, '').trim();
-        const minifiedHtml2 = htmlContent2.replace(/\s{2,}/g, ' ').replace(/\n/g, '').trim();
+
+        function minifyHtml(htmlContent) {
+            return htmlContent.replace(/\s{2,}/g, ' ').replace(/\n/g, '').trim();
+        }
+
+        const minifiedHtml1 = minifyHtml(htmlContent1);
+        const minifiedHtml2 = minifyHtml(htmlContent2);
 
         let functionCode = `
-(function() {
-    var chosenPercentage = Math.random() * 100;
-    var parent = ${parentId === 'body' ? 'document.body' : `document.getElementById('${parentId}')`};
-
-    if (chosenPercentage < ${percentage}) {
-        var container1 = document.createElement('div');
-        container1.id = "${elementId1}";
-        container1.innerHTML = \`${minifiedHtml1}\`;
-        parent.appendChild(container1);
-    } else {
-        var container2 = document.createElement('div');
-        container2.id = "${elementId2}";
-        container2.innerHTML = \`${minifiedHtml2}\`;
-        parent.appendChild(container2);
-    }
-})();
+            (function() {
+                var chosenPercentage = Math.random() * 100;
+                var parent = ${parentId === 'body' ? 'document.body' : `document.getElementById('${parentId}')`};
+            
+                if (chosenPercentage < ${percentage}) {
+                    var container1 = document.createElement('div');
+                    container1.id = "${elementId1}";
+                    container1.innerHTML = \`${minifiedHtml1}\`;
+                    parent.appendChild(container1);
+                } else {
+                    var container2 = document.createElement('div');
+                    container2.id = "${elementId2}";
+                    container2.innerHTML = \`${minifiedHtml2}\`;
+                    parent.appendChild(container2);
+                }
+            })();
         `;
 
         try {
