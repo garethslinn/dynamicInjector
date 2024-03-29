@@ -3,6 +3,16 @@ import { minify } from 'terser';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+    const generateRandomString = (length = 10) => {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    };
+
+    const [campaignName, setCampaignName] = useState(generateRandomString());
     const [htmlContent1, setHtmlContent1] = useState('');
     const [elementId1, setElementId1] = useState('defaultId1');
     const [htmlContent2, setHtmlContent2] = useState('');
@@ -23,14 +33,14 @@ function App() {
         var container1 = document.createElement('div');
         container1.id = "${elementId1}";
         container1.innerHTML = \`${htmlContent1}\`;
-                    parent.appendChild(container1);
-                } else {
-                    var container2 = document.createElement('div');
-                    container2.id = "${elementId2}";
-                    container2.innerHTML = \`${htmlContent2}\`;
-                    parent.appendChild(container2);
-                }
-            })();
+        parent.appendChild(container1);
+    } else {
+        var container2 = document.createElement('div');
+        container2.id = "${elementId2}";
+        container2.innerHTML = \`${htmlContent2}\`;
+        parent.appendChild(container2);
+    }
+})();
         `;
 
         try {
@@ -52,6 +62,11 @@ function App() {
     return (
         <div className="container mt-5">
             <form>
+                <div className="mb-3">
+                    <label htmlFor="campaignName" className="form-label">Campaign Name:</label>
+                    <input type="text" className="form-control" id="campaignName" value={campaignName} onChange={(e) => setCampaignName(e.target.value)} />
+                </div>
+
                 <div className="mb-3">
                     <label htmlFor="htmlContent1" className="form-label">HTML Content for Element 1:</label>
                     <textarea className="form-control" id="htmlContent1" rows="3" value={htmlContent1} onChange={(e) => setHtmlContent1(e.target.value)}></textarea>
