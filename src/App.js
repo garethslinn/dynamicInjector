@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     const [htmlContent1, setHtmlContent1] = useState('');
-    const [elementId1, setElementId1] = useState('defaultId1'); // Default ID for element 1
+    const [elementId1, setElementId1] = useState('defaultId1');
     const [htmlContent2, setHtmlContent2] = useState('');
-    const [elementId2, setElementId2] = useState('defaultId2'); // Default ID for element 2
+    const [elementId2, setElementId2] = useState('defaultId2');
     const [percentage, setPercentage] = useState(50);
     const [parentId, setParentId] = useState('body');
     const [generatedCode, setGeneratedCode] = useState('');
@@ -14,28 +14,20 @@ function App() {
     const generatedCodeRef = useRef(null);
 
     const generateFunction = async () => {
-
-        function minifyHtml(htmlContent) {
-            return htmlContent.replace(/\s{2,}/g, ' ').replace(/\n/g, '').trim();
-        }
-
-        const minifiedHtml1 = minifyHtml(htmlContent1);
-        const minifiedHtml2 = minifyHtml(htmlContent2);
-
         let functionCode = `
-            (function() {
-                var chosenPercentage = Math.random() * 100;
-                var parent = ${parentId === 'body' ? 'document.body' : `document.getElementById('${parentId}')`};
-            
-                if (chosenPercentage < ${percentage}) {
-                    var container1 = document.createElement('div');
-                    container1.id = "${elementId1}";
-                    container1.innerHTML = \`${minifiedHtml1}\`;
+(function() {
+    var chosenPercentage = Math.random() * 100;
+    var parent = ${parentId === 'body' ? 'document.body' : `document.getElementById('${parentId}')`};
+
+    if (chosenPercentage < ${percentage}) {
+        var container1 = document.createElement('div');
+        container1.id = "${elementId1}";
+        container1.innerHTML = \`${htmlContent1}\`;
                     parent.appendChild(container1);
                 } else {
                     var container2 = document.createElement('div');
                     container2.id = "${elementId2}";
-                    container2.innerHTML = \`${minifiedHtml2}\`;
+                    container2.innerHTML = \`${htmlContent2}\`;
                     parent.appendChild(container2);
                 }
             })();
